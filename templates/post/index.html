@@ -10,17 +10,19 @@
 {% endblock %}
 
 {% block content %}
+
 {% for image_post in posts %}
-<article class="container" class="post">
-        <header>
+<article class="card" class="post">
+        <header class="card-content">
                 <div>
                         <h1>{{ image_post['caption'] }}</h1>
                         <div class="about">by {{ image_post['username'] }} on {{ image_post['created'].strftime('%Y-%m-%d') }}</div>
                 </div>
                 {% if g.user['id'] == image_post['author_id'] %}
-                <a class="action" href="{{ url_for('post.delete', id=image_post['id']) }}">
-                        <i style="font-size: 30px; color: red;" class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
+                <form method="post" action="{{ url_for('post.delete', id=image_post['id']) }}" >
+                        <button type="submit" value="Delete" onclick="return confirm('Are you sure?');" style="border: 0; background: none; cursor:pointer;">
+                        <i style="font-size: 30px; color: red;" class="fa fa-trash-o" aria-hidden="true"></i></button>
+                </form>
                 {% endif %}
         </header>
         <p class="body">{{ image_post['body'] }}</p>

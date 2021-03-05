@@ -7,7 +7,7 @@
 </head>
 <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-                <a class="navbar-item" href="https://bulma.io">
+                <a class="navbar-item" href="/">
                         <h1>mima</h1>
                 </a>
         </div>
@@ -15,7 +15,6 @@
                 <div class="navbar-item">
                         <div class="buttons">
                                 {% if g.user %}
-                                <span>{{ g.user['username'] }}</span>
                                 <a class="button is-primary" href="{{ url_for('auth.logout') }}">Log Out</a>
                                 {% else %}
                                 <a class="button is-primary" href="{{ url_for('auth.register') }}">Register</a>
@@ -27,11 +26,14 @@
 </nav>
 <body>
         <section class="content container">
+                {% if g.user %}
+                <span>You are looged in as <strong>{{ g.user['username'] }}</strong></span>
+                {% endif %}
                 <header>
                         {% block header %}{% endblock %}
                 </header>
                 {% for message in get_flashed_messages() %}
-                <div class="flash">{{ message }}</div>
+                <div class="notification is-danger">{{ message }}</div>
                 {% endfor %}
                 {% block content %}{% endblock %}
         </section>

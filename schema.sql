@@ -15,6 +15,7 @@ CREATE TABLE post (
   views INTEGER,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   caption TEXT NOT NULL,
+  image_url TEXT,
   hashtags TEXT,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );

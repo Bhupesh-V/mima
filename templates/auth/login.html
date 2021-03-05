@@ -6,10 +6,25 @@
 
 {% block content %}
 <form method="post">
-  <label for="username">Username</label>
-  <input name="username" id="username" required>
-  <label for="password">Password</label>
-  <input type="password" name="password" id="password" required>
-  <input type="submit" value="Log In">
+        <div class="field">
+                <p class="control">
+                <input class="input" name="username" id="username" placeholder="Username" required>
+                </p>
+        </div>
+
+        <div class="field">
+                <p class="control has-icons-left">
+                <input class="input" type="password" name="password" placeholder="Password" id="password" required>
+                <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                </span>
+                </p>
+        </div>
+
+        <div class="field">
+                <p class="control">
+                <input class="button is-success" type="submit" value="Log In">
+                </p>
+        </div>
 </form>
 {% endblock %}

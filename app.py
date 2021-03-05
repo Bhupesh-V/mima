@@ -14,7 +14,7 @@ app.secret_key = secrets.token_urlsafe(16)
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "/media")
 app.config["DATABASE"] = os.path.join(app.root_path, "mima.sqlite")
-
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 db.init_app(app)
 
 

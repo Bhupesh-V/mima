@@ -6,11 +6,18 @@
 
 {% block content %}
 <form method="post" enctype = "multipart/form-data">
-  <label for="title">Caption</label>
-  <input name="caption" id="caption" value="{{ request.form['caption'] }}" required>
-  <label for="body">Body</label>
-  <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-  <input type = "file" name = "file"/>
-  <input type="submit" value="Post">
+        <i class="fa fa-plus-circle" aria-hidden="true"><input type = "file" name = "file"/></i>
+        
+        <textarea class="textarea is-primary" name="hashtags" id="hashtags" placeholder="#loved #mood">{{ request.form['hashtags'] }}</textarea>
+        <div class="field">
+                <label class="label">Caption</label>
+                <div class="control">
+                        <input class="input is-primary" value="{{ request.form['caption'] }}" type="text" name="caption" id="caption" placeholder="Primary input">
+                </div>
+        </div>
+
+        <div class="control">
+                <input class="button is-link"type="submit" value="Post">
+        </div>
 </form>
 {% endblock %}

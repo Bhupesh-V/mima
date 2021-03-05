@@ -12,7 +12,7 @@ bp = Blueprint("post", __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        "SELECT p.id, caption, created, author_id, username"
+        "SELECT p.id, caption, hashtags, created, author_id, username"
         " FROM post p JOIN user u ON p.author_id = u.id"
         " ORDER BY created DESC"
     ).fetchall()
@@ -24,8 +24,8 @@ def index():
 def create():
     if request.method == "POST":
         caption = request.form["caption"]
-        body = request.form["body"]
-        image = request.files['file']
+        tags = request.form["hashtags"]
+        image = request.files["file"]
         error = None
 
         if not caption:
@@ -37,8 +37,8 @@ def create():
             image.save(secure_filename(image.filename))
             db = get_db()
             db.execute(
-                "INSERT INTO post (caption, author_id)" " VALUES (?, ?)",
-                (caption, g.user["id"]),
+                "INSERT INTO post (caption, hashtags, author_id)" " VALUES (?, ?, ?)",
+                (caption, tags, g.user["id"]),
             )
             db.commit()
             return redirect(url_for("post.index"))

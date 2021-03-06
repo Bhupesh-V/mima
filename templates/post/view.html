@@ -1,12 +1,29 @@
 {% extends 'base.html' %}
 
-{% block header %}
-<h1>{% block title %}{{ post['caption'] }}{% endblock %}</h1>
-{% endblock %}
-
 {% block content %}
+<div class="card">
+        <div class="card-image">
+                <figure class="image">
+                        <p class="title">{{ post['caption'] }}</p>
+                        <img src="{{ post['image_url'] }}" alt="{{ post['caption'] }}">
+                </figure>
+        </div>
+        <div class="card-content">
+                <div class="media">
+                        <div class="media-left">
+                                <i class="fa fa-user-circle-o fa-3x" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-content">
+                                <p class="title is-4">{{ post['name'] }}</p>
+                                <p class="subtitle is-6">@{{ post['username'] }}</p>
+                        </div>
+                </div>
 
-<div>
-  <img src="{{ post['image_url'] }}" alt="{{ post['caption'] }}"/>
+                <div class="content">
+                        {{ post['hashtags'] }}
+                        <br>
+                        <time datetime="2016-1-1">{{ post['created'].strftime('%I:%M %p - %d %b %Y') }}</time>
+                </div>
+        </div>
 </div>
 {% endblock %}

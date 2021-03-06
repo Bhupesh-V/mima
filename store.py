@@ -23,3 +23,8 @@ def upload_image(filepath, filename):
         file_name=filename,  # required
     )
     return upload_status
+
+def purge_image(image_id):
+    purge_status = imagekit.delete_file(file_id)
+    print(purge_status)
+    return purge_status

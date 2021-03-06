@@ -54,12 +54,13 @@ def create():
             status = upload_image(imagepath, imagename)
             if status["error"] is None:
                 image_url = status["response"]["url"]
+                image_file_id = status["response"]["fileId"]
 
                 db = get_db()
                 db.execute(
-                    "INSERT INTO post (caption, hashtags, image_url, author_id)"
+                    "INSERT INTO post (caption, hashtags, image_url, image_file_id, author_id)"
                     " VALUES (?, ?, ?, ?)",
-                    (caption, tags, image_url, g.user["id"]),
+                    (caption, tags, image_url, image_file_id, g.user["id"]),
                 )
                 db.commit()
                 return redirect(url_for("post.index"))
@@ -73,7 +74,7 @@ def get_post(id, check_author=True):
     post = (
         get_db()
         .execute(
-            "SELECT p.id, caption, hashtags, created, author_id, username, image_url"
+            "SELECT p.id, caption, hashtags, created, author_id, username, name, image_url, image_file_id"
             " FROM post p JOIN user u ON p.author_id = u.id"
             " WHERE p.id = ?",
             (id,),
@@ -110,7 +111,8 @@ def view(id):
 @bp.route("/<int:id>/delete", methods=("POST",))
 @login_required
 def delete(id):
-    get_post(id)
+    post = get_post(id)
+    status = store.purge_image(post['image_file_id'])
     db = get_db()
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()

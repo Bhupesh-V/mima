@@ -16,6 +16,7 @@
                 <div class="navbar-item">
                         <div class="buttons">
                                 {% if g.user %}
+                                <span class="navbar-item"><strong>{{ g.user['username'] }}</strong></span>
                                 <a class="button is-primary" href="{{ url_for('auth.logout') }}">Log Out</a>
                                 {% else %}
                                 <a class="button is-primary" href="{{ url_for('auth.register') }}">Register</a>

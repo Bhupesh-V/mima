@@ -16,6 +16,7 @@ CREATE TABLE post (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   caption TEXT NOT NULL,
   image_url TEXT,
+  image_file_id TEXT,
   hashtags TEXT,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );

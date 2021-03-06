@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{{ post['caption'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div>
+  <img src="{{ post['image_url'] }}" alt="{{ post['caption'] }}"/>
+</div>
+{% endblock %}

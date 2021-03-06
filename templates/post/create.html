@@ -6,8 +6,11 @@
 
 {% block content %}
 <form method="post" enctype = "multipart/form-data">
-        <i class="fa fa-plus-circle" aria-hidden="true"><input type = "file" name = "file"/></i>
-        
+        <i class="fa fa-plus-circle" aria-hidden="true"> <input type = "file" name = "file" onchange="previewImage(event)"/></i><br><br>
+        <div>
+                <img style="height:100px;width:100px;display:none" id="your-image"/>
+        </div>
+        <br>
         <textarea class="textarea is-primary" name="hashtags" id="hashtags" placeholder="#loved #mood">{{ request.form['hashtags'] }}</textarea>
         <div class="field">
                 <label class="label">Caption</label>
@@ -17,7 +20,7 @@
         </div>
 
         <div class="control">
-                <input class="button is-link"type="submit" value="Post">
+                <input class="button is-primary"type="submit" value="Post">
         </div>
 </form>
 {% endblock %}

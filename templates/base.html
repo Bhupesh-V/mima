@@ -3,12 +3,13 @@
         <title>{% block title %}{% endblock %} - mima</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" async>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                        <h1>mima</h1>
+                        <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
                 </a>
         </div>
         <div class="navbar-end">
@@ -26,9 +27,6 @@
 </nav>
 <body>
         <section class="content container">
-                {% if g.user %}
-                <span>You are looged in as <strong>{{ g.user['username'] }}</strong></span>
-                {% endif %}
                 <header>
                         {% block header %}{% endblock %}
                 </header>
@@ -38,5 +36,12 @@
                 {% block content %}{% endblock %}
         </section>
 </body>
+<script>
+        var previewImage = function(event) {
+                var preview = document.getElementById('your-image');
+                preview.src = URL.createObjectURL(event.target.files[0]);
+                preview.style.display = "block";
+        };
+</script>
 </html>
 

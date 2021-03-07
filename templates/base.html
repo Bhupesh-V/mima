@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <head>
-        <title>{% block title %}{% endblock %} - mima</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>{% block title %}{% endblock %} - mima</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                        <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
-                </a>
-        </div>
-        <div class="navbar-end">
-                <div class="navbar-item">
-                        <div class="buttons">
-                                {% if g.user %}
-                                <span class="navbar-item"><strong>{{ g.user['username'] }}</strong></span>
-                                <a class="button is-primary" href="{{ url_for('auth.logout') }}">Log Out</a>
-                                {% else %}
-                                <a class="button is-primary" href="{{ url_for('auth.register') }}">Register</a>
-                                <a class="button is-light" href="{{ url_for('auth.login') }}">Log In</a>
-                                {% endif %}
-                        </div>
-                </div>
-        </div>
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+    </a>
+  </div>
+  <div class="navbar-start">
+    <header class="navbar-item title is-5">
+      {% block header %}{% endblock %}
+    </header>
+  </div>
+  <div class="navbar-end">
+    <div class="navbar-item">
+      <div class="buttons">
+        {% if g.user %}
+        <span class="navbar-item"><strong>{{ g.user['username'] }}</strong></span>
+        <a class="button is-primary" href="{{ url_for('auth.logout') }}">Log Out</a>
+        {% else %}
+        <a class="button is-primary" href="{{ url_for('auth.register') }}">Register</a>
+        <a class="button is-light" href="{{ url_for('auth.login') }}">Log In</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </nav>
 <body>
-        <section class="content container">
-                <header>
-                        {% block header %}{% endblock %}
-                </header>
-                {% for message in get_flashed_messages() %}
-                <div class="notification is-danger">{{ message }}</div>
-                {% endfor %}
-                {% block content %}{% endblock %}
-        </section>
+  <section class="content container">
+    {% for message in get_flashed_messages() %}
+    <div class="notification is-danger">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
 </body>
 <script>
-        var previewImage = function(event) {
-                var preview = document.getElementById('your-image');
-                preview.src = URL.createObjectURL(event.target.files[0]);
-                preview.style.display = "block";
-        };
+  var previewImage = function(event) {
+    var preview = document.getElementById('your-image');
+    preview.src = URL.createObjectURL(event.target.files[0]);
+    preview.style.display = "block";
+  };
 </script>
 </html>
 

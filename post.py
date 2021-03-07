@@ -23,7 +23,7 @@ bp = Blueprint("post", __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        "SELECT p.id, caption, hashtags, created, author_id, username, likes"
+        "SELECT p.id, caption, hashtags, created, author_id, username, likes, views"
         " FROM post p JOIN user u ON p.author_id = u.id"
         " ORDER BY created DESC"
     ).fetchall()
@@ -59,7 +59,7 @@ def create():
                 db = get_db()
                 db.execute(
                     "INSERT INTO post (caption, hashtags, image_url, image_file_id, author_id)"
-                    " VALUES (?, ?, ?, ?)",
+                    " VALUES (?, ?, ?, ?, ?)",
                     (caption, tags, image_url, image_file_id, g.user["id"]),
                 )
                 db.commit()
@@ -74,7 +74,7 @@ def get_post(id, check_author=True):
     post = (
         get_db()
         .execute(
-            "SELECT p.id, caption, hashtags, created, author_id, username, name, image_url, image_file_id"
+            "SELECT p.id, caption, hashtags, created, author_id, username, name, views, image_url, image_file_id"
             " FROM post p JOIN user u ON p.author_id = u.id"
             " WHERE p.id = ?",
             (id,),
@@ -105,6 +105,9 @@ def like(id):
 @login_required
 def view(id):
     post = get_post(id, False)
+    db = get_db()
+    db.execute("UPDATE post SET views = views + 1 WHERE id = ?", (id,))
+    db.commit()
     return render_template("post/view.html", post=post)
 
 
@@ -112,7 +115,7 @@ def view(id):
 @login_required
 def delete(id):
     post = get_post(id)
-    status = store.purge_image(post['image_file_id'])
+    status = store.purge_image(post["image_file_id"])
     db = get_db()
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()

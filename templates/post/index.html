@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Latest Posts{% endblock %}</h1>
-{% if g.user %}
+<h1>{% block title %}Recent Posts{% endblock %}</h1>
+{% if g.user %}&nbsp;&nbsp;
 <a title="Create New Post" href="{{ url_for('post.create') }}">
-        <i style="font-size: 50px;" class="fa fa-plus-square-o large" aria-hidden="true"></i>
+  <i style="font-size: 50px;" class="fa fa-plus-square-o large" aria-hidden="true"></i>
 </a>
 {% endif %}
 {% endblock %}
@@ -13,29 +13,29 @@
 
 {% for image_post in posts %}
 <article class="card" class="post">
-        <header class="card-content">
-                <div>
-                        <h1><a href="/post/{{ image_post['id'] }}">{{ image_post['caption'] }}</a></h1>
-                        <div class="about">by <strong>@{{ image_post['username'] }}</strong> on {{ image_post['created'].strftime('%d %b %Y') }}</div>
-                </div><br>
-                {% if g.user['id'] == image_post['author_id'] %}
-                <form method="post" action="{{ url_for('post.delete', id=image_post['id']) }}" >
-                        <button type="submit" value="Delete" onclick="return confirm('Are you sure?');" style="border: 0; background: none; cursor:pointer;">
-                                <i style="font-size: 30px; color: red;" class="fa fa-trash-o" aria-hidden="true"></i></button>
-                </form>
-                {% endif %}
-                {% if g.user['id'] != image_post['author_id'] %}
-                <form method="post" action="{{ url_for('post.like', id=image_post['id']) }}" >
-                        <button class="is-right" type="submit" value="like" style="border: 0; background: none; cursor:pointer;">
-                                <div>
-                                        <span style="font-size:21px">{{ image_post['likes'] }}</span>
-                                        <i style="font-size: 22px; color: yellowgreen;" class="fa fa-heart" aria-hidden="true"></i>
-                                </div>
-                        </button>
-                </form>
-                {% endif %}
-        </header>
-        <p class="body">{{ image_post['body'] }}</p>
+  <header class="card-content">
+    <div>
+      <h1><a href="/post/{{ image_post['id'] }}">{{ image_post['caption'] }}</a></h1>
+      <div class="about">by <strong>@{{ image_post['username'] }}</strong> on {{ image_post['created'].strftime('%d %b %Y') }}</div>
+    </div><br>
+    {% if g.user['id'] == image_post['author_id'] %}
+    <form method="post" action="{{ url_for('post.delete', id=image_post['id']) }}" >
+      <button type="submit" value="Delete" onclick="return confirm('Are you sure?');" style="border: 0; background: none; cursor:pointer;">
+        <i style="font-size: 30px; color: red;" class="fa fa-trash-o" aria-hidden="true"></i></button>
+    </form>
+    {% endif %}
+    {% if g.user['id'] != image_post['author_id'] %}
+    <form method="post" action="{{ url_for('post.like', id=image_post['id']) }}" >
+      <span style="font-size:20px">{{ image_post['views'] }} <i style="font-size: 20px;" class="fa fa-eye" aria-hidden="true"></i></span>
+      <button class="is-right" type="submit" value="like" style="border: 0; background: none; cursor:pointer;">
+        <div>
+          <span style="font-size:21px">{{ image_post['likes'] }}</span>
+          <i style="font-size: 22px; color: yellowgreen;" class="fa fa-heart" aria-hidden="true"></i>
+        </div>
+      </button>
+    </form>
+    {% endif %}
+  </header>
 </article>
 {% if not loop.last %}
 <hr>

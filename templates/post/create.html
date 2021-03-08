@@ -5,20 +5,19 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" enctype = "multipart/form-data">
+<form method="post" enctype = "multipart/form-data"><br><br>
   <i class="fa fa-plus-circle" aria-hidden="true"> <input type = "file" name = "file" onchange="previewImage(event)"/></i><br><br>
   <div>
-    <img style="height:100px;width:100px;display:none" id="your-image"/>
+    <img id="image-preview"/>
   </div>
   <br>
-  <textarea class="textarea is-primary" name="hashtags" id="hashtags" placeholder="#loved #mood">{{ request.form['hashtags'] }}</textarea>
   <div class="field">
     <label class="label">Caption</label>
     <div class="control">
       <input class="input is-primary" value="{{ request.form['caption'] }}" type="text" name="caption" id="caption" placeholder="Primary input">
     </div>
   </div>
-
+  <textarea class="textarea is-primary" name="hashtags" id="hashtags" placeholder="#loved #mood">{{ request.form['hashtags'] }}</textarea>
   <div class="control">
     <input class="button is-primary"type="submit" value="Post">
   </div>

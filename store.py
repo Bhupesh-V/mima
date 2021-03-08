@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-env_path = Path(".") / ".env"
+env_path = Path(".") / ".flaskenv"
 load_dotenv(dotenv_path=env_path)
 
 PRIVATE_KEY = os.getenv("PRIVATE_KEY")
@@ -24,7 +24,7 @@ def upload_image(filepath, filename):
     )
     return upload_status
 
+
 def purge_image(image_id):
-    purge_status = imagekit.delete_file(file_id)
-    print(purge_status)
+    purge_status = imagekit.delete_file(image_id)
     return purge_status

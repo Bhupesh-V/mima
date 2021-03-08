@@ -6,32 +6,43 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-active is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
     </a>
-  </div>
-  <div class="navbar-start">
-    <header class="navbar-item title is-5">
+    <header class="navbar-item is-5">
       {% block header %}{% endblock %}
     </header>
+    <a role="button" style="height: 4.0rem;"class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" name="customBurger">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
   </div>
-  <div class="navbar-end">
-    <div class="navbar-item">
-      <div class="buttons">
-        {% if g.user %}
-        <span class="navbar-item"><strong>{{ g.user['username'] }}</strong></span>
-        <a class="button is-primary" href="{{ url_for('auth.logout') }}">Log Out</a>
-        {% else %}
-        <a class="button is-primary" href="{{ url_for('auth.register') }}">Register</a>
-        <a class="button is-light" href="{{ url_for('auth.login') }}">Log In</a>
-        {% endif %}
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start is-dark">
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          {% if g.user %}
+          <a class="button is-primary" href="{{ url_for('auth.logout') }}">Log Out</a>
+          {% else %}
+          <a class="button is-primary" href="{{ url_for('auth.register') }}">Register</a>
+          <a class="button is-light" href="{{ url_for('auth.login') }}">Log In</a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
 </nav>
 <body>
+  {% if g.user %}
+  <span class="subtitle is-5 is-vcentered" style="text-align:center;">
+    <p> You are logged in as <strong>{{ g.user['username'] }}</strong></p>
+  </span>
+  {% endif %}
   <section class="content container">
     {% for message in get_flashed_messages() %}
     <div class="notification is-danger">{{ message }}</div>
@@ -41,10 +52,29 @@
 </body>
 <script>
   var previewImage = function(event) {
-    var preview = document.getElementById('your-image');
+    var preview = document.getElementById('image-preview');
     preview.src = URL.createObjectURL(event.target.files[0]);
     preview.style.display = "block";
   };
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+      // Add a click event on each of them
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+          // Get the target from the "data-target" attribute
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+  });
 </script>
 </html>
 

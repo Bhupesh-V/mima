@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 
 from mima.auth import login_required
 from mima.db import get_db
-from mima.store import upload_image
+from mima.store import upload_image, purge_image
 import os
 
 bp = Blueprint("post", __name__)
@@ -105,9 +105,10 @@ def like(id):
 @login_required
 def view(id):
     post = get_post(id, False)
-    db = get_db()
-    db.execute("UPDATE post SET views = views + 1 WHERE id = ?", (id,))
-    db.commit()
+    if post["author_id"] != g.user["id"]:
+        db = get_db()
+        db.execute("UPDATE post SET views = views + 1 WHERE id = ?", (id,))
+        db.commit()
     return render_template("post/view.html", post=post)
 
 
@@ -115,7 +116,7 @@ def view(id):
 @login_required
 def delete(id):
     post = get_post(id)
-    status = store.purge_image(post["image_file_id"])
+    status = purge_image(post["image_file_id"])
     db = get_db()
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()

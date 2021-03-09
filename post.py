@@ -23,7 +23,7 @@ bp = Blueprint("post", __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        "SELECT p.id, caption, hashtags, created, author_id, username, likes, views"
+        "SELECT p.id, caption, body, created, author_id, username, likes, views"
         " FROM post p JOIN user u ON p.author_id = u.id"
         " ORDER BY created DESC"
     ).fetchall()
@@ -35,7 +35,7 @@ def index():
 def create():
     if request.method == "POST":
         caption = request.form["caption"]
-        tags = request.form["hashtags"]
+        body = request.form["body"]
         image = request.files["file"]
         error = None
 
@@ -58,9 +58,9 @@ def create():
 
                 db = get_db()
                 db.execute(
-                    "INSERT INTO post (caption, hashtags, image_url, image_file_id, author_id)"
+                    "INSERT INTO post (caption, body, image_url, image_file_id, author_id)"
                     " VALUES (?, ?, ?, ?, ?)",
-                    (caption, tags, image_url, image_file_id, g.user["id"]),
+                    (caption, body, image_url, image_file_id, g.user["id"]),
                 )
                 db.commit()
                 return redirect(url_for("post.index"))
@@ -74,7 +74,7 @@ def get_post(id, check_author=True):
     post = (
         get_db()
         .execute(
-            "SELECT p.id, caption, hashtags, created, author_id, username, name, views, image_url, image_file_id"
+            "SELECT p.id, caption, body, created, author_id, username, name, views, image_url, image_file_id"
             " FROM post p JOIN user u ON p.author_id = u.id"
             " WHERE p.id = ?",
             (id,),
@@ -96,8 +96,23 @@ def get_post(id, check_author=True):
 def like(id):
     get_post(id, False)
     db = get_db()
-    db.execute("UPDATE post SET likes = likes + 1 WHERE id = ?", (id,))
-    db.commit()
+    is_already_liked = db.execute(
+        "SELECT DISTINCT post_id, liker_id FROM likers WHERE post_id = ? AND liker_id = ?",
+        (
+            id,
+            g.user["id"],
+        ),
+    ).fetchall()
+    if len(is_already_liked) != 1:
+        db.execute(
+            "INSERT INTO likers (post_id, liker_id) VALUES (?, ?)",
+            (
+                id,
+                g.user["id"],
+            ),
+        )
+        db.execute("UPDATE post SET likes = likes + 1 WHERE id = ?", (id,))
+        db.commit()
     return redirect(url_for("post.index"))
 
 

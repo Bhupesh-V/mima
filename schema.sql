@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS likers;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,9 +15,16 @@ CREATE TABLE post (
   likes INTEGER DEFAULT 0,
   views INTEGER DEFAULT 0,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  caption TEXT NOT NULL,
+  caption VARCHAR(100) NOT NULL,
   image_url TEXT,
   image_file_id TEXT,
-  hashtags TEXT,
+  body VARCHAR(280),
   FOREIGN KEY (author_id) REFERENCES user (id)
+);
+
+CREATE TABLE likers (
+  post_id INTEGER NOT NULL,
+  liker_id INTEGER NOT NULL,
+  FOREIGN KEY (post_id) REFERENCES post (id)
+  FOREIGN KEY (liker_id) REFERENCES user (id)
 );

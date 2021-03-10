@@ -94,7 +94,6 @@ def get_post(id, check_author=True):
 @bp.route("/post/<int:id>", methods=("POST",))
 @login_required
 def like(id):
-    get_post(id, False)
     db = get_db()
     is_already_liked = db.execute(
         "SELECT DISTINCT post_id, liker_id FROM likers WHERE post_id = ? AND liker_id = ?",

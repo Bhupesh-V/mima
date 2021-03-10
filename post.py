@@ -12,9 +12,6 @@ from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
 
 from auth import login_required
-# from mima.auth import login_required
-# from db.get_db as get_db
-
 from db import get_db
 from store import upload_image, purge_image
 import os

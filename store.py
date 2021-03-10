@@ -6,8 +6,8 @@ import os
 env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
 
-PRIVATE_KEY = os.getenv("PRIVATE_KEY")
-PUBLIC_KEY = os.getenv("PUBLIC_KEY")
+PRIVATE_KEY = os.getenv("IMAGEKIT_PRIVATE_KEY")
+PUBLIC_KEY = os.getenv("IMAGEKIT_PUBLIC_KEY")
 URL_ENDPOINT = os.getenv("URL_ENDPOINT")
 
 imagekit = ImageKit(

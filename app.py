@@ -1,6 +1,6 @@
 from flask import Flask
 import os, secrets
-from . import db, auth, post
+import db, auth, post
 
 app = Flask(__name__, instance_relative_config=True)
 

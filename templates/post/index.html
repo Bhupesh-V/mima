@@ -20,7 +20,6 @@
     </div><br>
     <div style="float:left;">
       <span style="display:inline;font-size:20px">{{ image_post['views'] }} <i style="font-size: 20px;" class="fa fa-eye" aria-hidden="true"></i></span>
-      {% if g.user['id'] != image_post['author_id'] %}
       <form method="post" style="display:inline;" action="{{ url_for('post.like', id=image_post['id']) }}" >
         <button class="is-right" type="submit" value="like" style="border: 0; background: none; cursor:pointer;">
           <div>
@@ -29,9 +28,6 @@
           </div>
         </button>
       </form>
-      {% else %}
-      <span style="display:inline;font-size:20px">{{ image_post['likes'] }} <i style="font-size: 20px;" class="fa fa-heart" aria-hidden="true"></i></span>
-      {% endif %}
       {% if g.user['id'] == image_post['author_id'] %}<br><br>
       <form method="post" action="{{ url_for('post.delete', id=image_post['id']) }}" >
         <button class="button is-danger is-active" type="submit" value="Delete" onclick="return confirm('Are you sure?');">Delete</button>
